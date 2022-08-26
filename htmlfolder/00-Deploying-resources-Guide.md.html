@@ -1,0 +1,322 @@
+<h1 id="serverless-openhack">Serverless Openhack</h1>
+<h2 id="setting-up-permissions">Setting up Permissions</h2>
+<p>Before continuing ensure you understand the permissions needed to run
+the OpenHack on your Azure subscription.</p>
+<h3 id="initial-setup"><strong>Initial Setup</strong></h3>
+<p>To perform the setup and deployment to prepare for the OpenHack you
+must be be assigned to the Owner role on the Azure subscription(s).</p>
+<p>To validate this, navigate to the <a
+href="https://portal.azure.com">Azure Portal</a>. Click on **All
+Services*- -&gt; **Subscriptions*- -&gt; <strong>Access Control
+(IAM)</strong>.</p>
+<p>Enter the email address in the **Check access*- text box to view the
+current permissions of the user performing the setup.</p>
+<figure>
+<img src="images/check-access.png"
+title="Check access dialog displays a textbox to enter an email address."
+alt="Check access dialog" />
+<figcaption aria-hidden="true">Check access dialog</figcaption>
+</figure>
+<h3 id="performing-the-openhack"><strong>Performing the
+OpenHack</strong></h3>
+<p>Each attendee in the OpenHack will be assigned the **Owner*- role on
+a resource group unique to their team. This is covered later in this
+document in the deployment section.</p>
+<h2 id="common-azure-resources">Common Azure Resources</h2>
+<p>The following is a list of common Azure resources that are deployed
+and utilized during the OpenHack.</p>
+<p>Ensure that these services are not blocked by Azure Policy. As this
+is an OpenHack, the services that attendees can utilize are not limited
+to this list so subscriptions with a tightly controlled service catalog
+may run into issues if the service an attendee wishes to use is disabled
+via policy.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Azure resource</th>
+<th>Resource Providers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Azure Logic Apps</td>
+<td>Microsoft.Logic</td>
+</tr>
+<tr class="even">
+<td>Azure Functions</td>
+<td>Microsoft.Web</td>
+</tr>
+<tr class="odd">
+<td>Azure App Service</td>
+<td>Microsoft.Web</td>
+</tr>
+<tr class="even">
+<td>Azure Storage</td>
+<td>Microsoft.Storage</td>
+</tr>
+<tr class="odd">
+<td>Azure Cosmos DB</td>
+<td>Microsoft.DocumentDb</td>
+</tr>
+<tr class="even">
+<td>Event Hub</td>
+<td>Microsoft.EventHub</td>
+</tr>
+<tr class="odd">
+<td>Event Grid</td>
+<td>Microsoft.EventGrid</td>
+</tr>
+<tr class="even">
+<td>Azure Cognitive Services</td>
+<td>Microsoft.CognitiveServices</td>
+</tr>
+<tr class="odd">
+<td>Virtual Network</td>
+<td>Microsoft.Network</td>
+</tr>
+<tr class="even">
+<td>Azure Stream Analytics</td>
+<td>Microsoft.StreamAnalytics</td>
+</tr>
+<tr class="odd">
+<td>Virtual Machine</td>
+<td>Microsoft.VMWare</td>
+</tr>
+<tr class="even">
+<td>Azure DevOps</td>
+<td>Microsoft.VSOnline</td>
+</tr>
+<tr class="odd">
+<td>Service Bus</td>
+<td>Microsoft.ServiceBus</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Note: Resource Provider Registration can be found at
+<code>https://portal.azure.com/_yourtenantname_.onmicrosoft.com/resource/subscriptions/_yoursubscriptionid_/resourceproviders</code></p>
+</blockquote>
+<h2 id="attendee-computers">Attendee Computers</h2>
+<p>Attendees will be required to install software on the workstations
+that they are performing the OpenHack on. Ensure they have adequate
+permissions to perform software installation.</p>
+<h2 id="deployment-instructions">Deployment Instructions</h2>
+<p>For deployment, you will run a PowerShell script that executes an ARM
+template to setup the appropriate Resource Group for each team. You will
+then manually add team members as owners to the resource group. You may
+run the script in **PowerShell 7+*- or in the <strong>PowerShell
+ISE</strong>, whichever you prefer.</p>
+<h3 id="powershell">PowerShell</h3>
+<ol type="1">
+<li><p>Open a **PowerShell 7*- window, run the following command, if
+prompted, click <strong>Yes to All</strong>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Set-ExecutionPolicy</span> <span class="op">-</span>Scope <span class="kw">Process</span> <span class="op">-</span>ExecutionPolicy Bypass</span></code></pre></div></li>
+<li><p>Make sure you have the latest PowerShell Azure module installed
+by executing the following command:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Install<span class="op">-</span>Module <span class="op">-</span>Name Az <span class="op">-</span>AllowClobber <span class="op">-</span>Scope CurrentUser</span></code></pre></div></li>
+<li><p>If you installed an update, <strong>close</strong> the PowerShell
+7 window, then <strong>re-open</strong> it. This ensures that the latest
+version of the <strong>AZ</strong> module is used.</p></li>
+<li><p>Execute the following to sign in to the Azure account:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Connect<span class="op">-</span>AzAccount</span></code></pre></div></li>
+<li><p>If you have more than one subscription, be sure to select the
+right subscription before the next step. Use
+<code>Get-AzSubscription</code> to list your subscriptions and then use
+the <code>Select-AzSubscription</code> command as shown below to set the
+subscription you’re targeting for the deployment:</p>
+<p>List subscriptions:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Get<span class="op">-</span>AzSubscription</span></code></pre></div>
+<p>Select the subscription to use:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Select<span class="op">-</span>AzSubscription <span class="op">-</span>Subscription <span class="op">&lt;</span>The selected Subscription Id<span class="op">&gt;</span></span></code></pre></div></li>
+<li><p>Clone the files to your working computer</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>git clone https<span class="op">://</span>github<span class="op">.</span><span class="fu">com</span><span class="op">/</span>microsoft<span class="op">/</span>OpenHack<span class="op">.</span><span class="fu">git</span></span></code></pre></div></li>
+<li><p>Change directory to the <code>serverless\deploy\</code> folder.
+Optionally, review and/or modify the script.</p>
+<p><strong>Optionally</strong>: modify the script to override the read
+of the number of teams and/or region</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">$teamCount</span> <span class="op">=</span> <span class="fu">Read-Host</span> <span class="st">&quot;How many teams are hacking?&quot;</span><span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#could be</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="va">$teamCount</span> <span class="op">=</span> 1<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#and </span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="va">$region</span> <span class="op">=</span> <span class="fu">Read-Host</span> <span class="st">&quot;What Region Resources be deployed to (i.e. centralus, southcentralus, japaneast, etc)?&quot;</span><span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#could be</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="va">$region</span> <span class="op">=</span> <span class="st">&quot;centralus&quot;</span></span></code></pre></div></li>
+<li><p>Run the script.</p>
+<p>Use the command:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span>\deployAll<span class="op">.</span><span class="fu">ps1</span></span></code></pre></div>
+<p>To run the script.</p>
+<blockquote>
+<p>*Note: if you receive an error that <code>azuredeploy.json</code>
+cannot be found, make sure the current directory of the Console window
+of **Powershell*- is the <code>serverless\deploy</code> folder.-</p>
+</blockquote>
+<ul>
+<li>Create resource group entitled **ServerlessOpenHackRGXX-[location]*-
+where XX is the two-digit team number and location is the location you
+entered or have in the script. For example, team 2 in **southcentralus*-
+would have the expected resource group
+<code>ServerlessOpenHackRG02-southcentralus</code><br />
+</li>
+<li>Two Storage Accounts with respective containers [sohsalesxxxxxxxxx]
+and [sohvmdiagxxxxxxxxx]</li>
+<li>VPN [soh-vnet]</li>
+<li>Network Interface [soh-jumpbox-nic]</li>
+<li>Network Security Group [soh-jumpbox-nsg]</li>
+<li>Public ID [soh-jumpbox-pip]</li>
+<li>VM disk [soh-jumpbox_OsDisk_1_xxxxxxxxxxxxx]</li>
+<li>VM [soh-jumpbox]</li>
+</ul></li>
+</ol>
+<h3 id="manual-step">Manual step</h3>
+<p>After deployment, manually add appropriate users with owner access on
+the appropriate resource group for their team, so that they will have
+ability to create and deploy resources in that resource group.</p>
+<h2 id="deployment-artifacts-validation">Deployment Artifacts /
+Validation</h2>
+<p>After deployment has completed, you should see the following
+resources in each team’s Resource Group: ###</p>
+<ul>
+<li>Team XX resource group
+(i.e. <code>ServerlessOpenHackRG01-centralus</code>)</li>
+<li>VM - [soh-jumpbox]</li>
+<li>NIC - [soh-jumpbox-nic]</li>
+<li>NSG - [soh-jumpbox-nsg]</li>
+<li>Public IP - [soh-jumpbox-pip]</li>
+<li>Disk - [soh-jumpbox_OsDisk_1_xxxxxxxx]</li>
+<li>VPN - [soh-vnet]</li>
+<li>Storage Sales [sohsalesxxxxxxxxxx]
+<ul>
+<li>container [receipts]<br />
+</li>
+<li>container [receipts-high-value]<br />
+</li>
+</ul></li>
+<li>Storage VMDiagnostics [sohvmdiagxxxxxxxxx]
+<ul>
+<li>container [bootdiagnostics-sohjumpbo-(guidish)]</li>
+</ul></li>
+</ul>
+<h2 id="more-detail-on-the-usage-of-the-services">More detail on the
+usage of the services</h2>
+<p>As the teams progress:</p>
+<ul>
+<li>Make sure teams can create and work with storage</li>
+<li>Make sure teams can create Logic Apps</li>
+<li>Make sure teams can create functions using standard/free function
+app service, and eventually updated to premium</li>
+<li>Make sure teams can create APIM</li>
+<li>Make sure teams can create Event Hubs and integrate triggers with
+Event Grid</li>
+<li>Make sure teams can create Service Bus and use for appropriate
+messaging</li>
+<li>Make sure teams can use Stream Analytics to filter information</li>
+<li>Make sure teams can provision cognitive services</li>
+</ul>
+<h2 id="services-and-application-overview">Services and application
+overview</h2>
+<p>The following services and applications are utilized in this
+OpenHack.</p>
+<h3 id="logic-apps">Logic Apps</h3>
+<p>Notes:</p>
+<ul>
+<li>users will make at least two, likely four or five<br />
+</li>
+<li>responding to events and processing to push emails against a 3rd
+party Outlook/Business server<br />
+</li>
+<li>route messages to functions or other responding events<br />
+</li>
+<li>aggregate data for reporting, etc.</li>
+</ul>
+<h3 id="cosmos-db-andor-azure-tables">Cosmos DB and/or Azure Tables</h3>
+<p>Notes:</p>
+<ul>
+<li>Cosmos DB will be a lot easier in the later challenges, so recommend
+using Cosmos DB</li>
+<li>They will need to be able to create tables and respond to events
+against Cosmos DB</li>
+</ul>
+<h3 id="apim">APIM</h3>
+<p>Notes:</p>
+<ul>
+<li>participants will create an API management gateway to group internal
+and external APIs<br />
+</li>
+<li>use APIM to build various subscriptions for access</li>
+</ul>
+<h3 id="azure-functions">Azure Functions</h3>
+<p>Notes:</p>
+<ul>
+<li>multiple functions will be created/deployed</li>
+<li>http or event grid or storage triggered, will eventually need to be
+able to push requests to a VPN endpoint</li>
+</ul>
+<h3 id="app-service">App Service</h3>
+<p>Notes:</p>
+<ul>
+<li>Leverage Azure Functions in function apps</li>
+<li>starts with basic/free plan</li>
+<li>will potentially need Premium plan for network integration to route
+traffic/lock down functions.</li>
+</ul>
+<h3 id="cognitive-services">Cognitive Services</h3>
+<p>Notes:</p>
+<ul>
+<li>Cognitive Services to parse intent on messages/reviews<br />
+</li>
+<li>using Text Analytics API, integrated with events and queues</li>
+</ul>
+<h3 id="messaging-and-events">Messaging and Events</h3>
+<p>Notes:</p>
+<ul>
+<li>Event Grid/Event Hub for message processing<br />
+</li>
+<li>Service Bus for message queueing</li>
+</ul>
+<h3 id="storage">Storage</h3>
+<p>Notes:</p>
+<ul>
+<li>public blob with container to receive hundreds of csv files that
+will be pushed to the storage by third party app</li>
+<li>ability to respond to storage creation events via Logic App or Azure
+Function</li>
+</ul>
+<h3 id="iaas">IaaS</h3>
+<p>Notes:</p>
+<ul>
+<li><p>Networking<br />
+</p></li>
+<li><p>teams will need build something that pushes to a third-party
+VPN</p></li>
+<li><p>VM</p></li>
+<li><p>a jump-box VM is created for teams to view VPN endpoints from
+third-party service.</p></li>
+</ul>
+<h3 id="stream-analytics">Stream Analytics</h3>
+<p>Notes:</p>
+<ul>
+<li>Used To aggregate data for reporting</li>
+</ul>
+<h3
+id="deploymentpipelinessource-repository">Deployment/Pipelines/Source
+Repository</h3>
+<p>Teams will need to setup CI/CD pipelines in Azure DevOps or
+GitHub</p>
+<h3 id="development-tools">Development Tools</h3>
+<p>Need to use one or more of the following to complete the work</p>
+<ul>
+<li>Visual Studio - teams will need to be able to write code in Visual
+Studio</li>
+<li>Java / Maven<br />
+</li>
+<li>VS Code / Python &amp; node/other development</li>
+<li>Postman</li>
+</ul>

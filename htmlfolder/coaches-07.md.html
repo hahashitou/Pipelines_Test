@@ -1,0 +1,127 @@
+<h1 id="process-pos-sales-events">Process POS sales events</h1>
+<h2 id="progress-diagram">Progress Diagram</h2>
+<figure>
+<img
+src="https://serverlessoh.azureedge.net/public/process-pos-sales-event-progress-diagram.jpg"
+alt="Process POS sales event progress diagram" />
+<figcaption aria-hidden="true">Process POS sales event progress
+diagram</figcaption>
+</figure>
+<h2 id="happy-path">Happy Path</h2>
+<ul>
+<li>Event Hub trigger for Azure Function</li>
+<li>Function trigger changed to receive a batch (string[] in C#)</li>
+<li>Host.json changed to match requirements</li>
+<li>App insights query for role instance count per minute</li>
+</ul>
+<h2 id="coaches-notes">Coaches Notes</h2>
+<ul>
+<li><p>Need to set ’“cardinality”: “many” for JavaScript Azure Functions
+to enable batch receives</p></li>
+<li><p>When posting to register the event hub, the team should use a
+unique table number. The API for post can be found <a
+href="https://serverlessohmanagementapi.trafficmanager.net/api/definition">here</a>.
+What matters is that the team table number is unique, such as
+seattle-table-1 or london-table-8. This should be the same table number
+that the team used in the previous challenge, and should be unique per
+table/team. Additionally, if the team failed to register their storage
+account, it is likely the event hub will not register. Please make sure
+to let them know they must have registered their storage account. Some
+people will skip or defer that step due to the amount of traffic it
+generates to the storage account (or they will disconnect the storage
+account, also breaking the flow of this open hack because it will
+de-register their table).</p></li>
+<li><p>Be prepared to discuss the impact of setting the function app’s
+<code>maxBatchSize</code> to 64 and <code>prefetchCount</code> to 256.
+There is nothing special about those numbers. They’re a starting point.
+Attendees should use those and observe performance and scalability. As a
+coach, you should discuss how to process messages within the batch,
+including error/exception handling.</p>
+<p>More information regarding functions:</p>
+<ul>
+<li><p><a
+href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-host-json">Sample
+host.json file</a></p></li>
+<li><p><a
+href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-bindings-event-hubs-trigger?tabs=csharp#hostjson-properties">Host.json
+- Functions Bindings to Event Hubs</a></p>
+<pre><code>&gt;Note: Functions on version 1 use a different configuration, but this should not be in play for new development</code></pre></li>
+<li><p><a
+href="https://docs.microsoft.com/azure/azure-functions/functions-bindings-event-hubs">Functions
+Binding to Event Hubs</a></p></li>
+<li><p><a
+href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-best-practices">Azure
+Functions Best Practices</a></p></li>
+<li><p><a
+href="https://medium.com/@iizotov/azure-functions-and-event-hubs-optimising-for-throughput-549c7acd2b75">Azure
+Functions and Event Hubs: Optimizing for Throughput</a></p></li>
+<li><p><a
+href="https://channel9.msdn.com/Shows/On-NET/Understanding-the-Event-Processor-Host-in-Azure-Event-Hubs">Understanding
+Event Processor Host in Azure Event Hubs</a></p></li>
+</ul></li>
+<li><p>Preference is for them to have their function apps under with
+Consumption plan, not App Service Plan (easier to show the auto scale).
+If they didn’t, take them through setting up auto scale for App Service
+Plan with a low scale up measurement (like 10% CPU).</p></li>
+<li><p>Prompt attendee to view server count <strong>before</strong>
+turning on boost mode (so they can see the default vs. functions
+scaling).</p></li>
+<li><p>To get the number of active servers for a specific function, use
+either the Application Insights Live Metrics view, or a Log Analytics
+query, such as the following:</p>
+<pre><code>  ````sql
+      requests
+      | where name == &quot;ProcessSalesEventBatch&quot;
+      | summarize count() by cloud_RoleInstance  
+      | summarize count()
+  ```</code></pre></li>
+<li><p>If working with a Python Function app, Live Metrics does
+<strong>not</strong> show the correct number of servers which the
+function app has scaled out to (always shows 1). This is a <a
+href="https://github.com/Azure/azure-functions-python-worker/issues/35">known
+issue</a>. Instead, retrieve the number of active instances by using a
+Log Analytics query, such as the following:</p>
+<pre><code>  ```sql
+  requests
+  | where operation_Name  == &quot;&quot;
+  | distinct cloud_RoleInstance
+  | count
+  ```</code></pre></li>
+<li><p>View configuration in host.json to validate batch and prefetch
+count.</p></li>
+<li><p>If using Cosmos DB, ensure the RUs are high enough to handle the
+throughput (otherwise requests may get throttled).</p>
+<ul>
+<li><a
+href="https://docs.microsoft.com/azure/cosmos-db/request-units">Request
+Units in Azure Cosmos DB</a></li>
+<li><a
+href="https://docs.microsoft.com/azure/cosmos-db/estimate-ru-with-capacity-planner">Estimate
+RU/s using the Azure Cosmos DB capacity planner</a></li>
+</ul></li>
+</ul>
+<h2
+id="why-event-hub-azure-functions-and-azure-application-insights">Why
+Event Hub, Azure Functions, and Azure Application Insights</h2>
+<h3 id="event-hub">Event Hub</h3>
+<ul>
+<li>Receive and process millions of events per second</li>
+<li>Transform an store using real-time analytics or batching/storage
+adapters</li>
+</ul>
+<h3 id="azure-functions">Azure Functions</h3>
+<ul>
+<li>Azure functions allow your teams to write less code, maintain less
+infrastructure and save on costs</li>
+<li>Azure functions are lightweight and stand-alone. Functions can
+easily break up monolithic applications and reduce your lead/cycle time,
+allowing your teams to get code to production much more quickly and
+efficiently</li>
+</ul>
+<h3 id="azure-application-insights">Azure Application Insights</h3>
+<ul>
+<li>Extensible Application Performance Management (APM) service, used to
+monitor live applications</li>
+<li>Automatically detect performance anomalies, leverage powerful
+analytics tools, and continuously improve performance and usability</li>
+</ul>

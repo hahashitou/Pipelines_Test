@@ -1,0 +1,94 @@
+<h1 id="engineering-practices">Engineering Practices</h1>
+<h2 id="definition-of-done">Definition of Done</h2>
+<ul class="task-list">
+<li><input type="checkbox" disabled="" />Code changes reviewed &amp;
+signed off</li>
+<li><input type="checkbox" disabled="" />Existing documentation is
+updated (readme, .md’s)</li>
+<li><input type="checkbox" disabled="" />New documentation needed to
+support the change is created</li>
+<li><input type="checkbox" disabled="" />Code changes checked into
+master</li>
+<li><input type="checkbox" disabled="" />All existing automated tests
+(unit and/or e2e) pass successfully, new tests added as needed</li>
+<li><input type="checkbox" disabled="" />CI completes successfully</li>
+<li><input type="checkbox" disabled="" />CD completes successfully</li>
+<li><input type="checkbox" disabled="" />Smoke test production
+deployment for minimum of 2 weeks</li>
+<li><input type="checkbox" disabled="" />New changes in smoke test for
+48hrs (ongoing)</li>
+<li><input type="checkbox" disabled="" />Create task for required
+artifacts</li>
+</ul>
+<p>Engineering Playbook <a
+href="https://github.com/microsoft/code-with-engineering-playbook/blob/master/team-agreements/definition-of-done/readme.md">Definition
+of Done</a></p>
+<h2 id="markdown-md-files">Markdown (md files)</h2>
+<ul>
+<li>Use <a
+href="https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint">markdownlint</a>
+add-in for VS Code</li>
+<li>Use “-” for unordered lists</li>
+<li>Add a blank line before and after ``` for visualization</li>
+</ul>
+<h2 id="kanban-management-best-practices">Kanban Management Best
+Practices</h2>
+<h3 id="triage">Triage</h3>
+<p>All net-new issues need to be triaged, leverage Notes for discussions
+points as needed</p>
+<ul>
+<li>Create the issue in the appropriate board and template</li>
+<li>Add project to the issue (i.e. Helium) - this is automatic add to
+master board</li>
+<li>Add all relevant tags (language, enchancement, bug, design review,
+bug, etc)</li>
+<li>Do not add Size, Priority, or Assignee</li>
+<li>All issues will be triaged at the end of the Standup call</li>
+</ul>
+<h3 id="backlog">Backlog</h3>
+<p>Once issue has been triaged, move into the Backlog</p>
+<ul>
+<li>Once issue is triaged, add the appropriate Priority Tag and add
+net-new tags</li>
+<li>Do not add size or assignee</li>
+</ul>
+<h3 id="sprint-backlog">Sprint Backlog</h3>
+<p>Issues identified during Sprint planning will be shifted the Sprint
+backlog</p>
+<ul>
+<li>Need to review and update priority and add estimated sizing
+labels</li>
+</ul>
+<h3 id="in-progress">In Progress</h3>
+<p>Issues that the Dev Team is actively working on</p>
+<ul>
+<li>Add assignee, and size tags &amp; ensure all relevant tags are
+added</li>
+<li>If a design review is required, schedule meeting when moving issue
+to backlog</li>
+<li>If task is bigger than “Size:L”, break into smaller tasks to ensure
+completion during week sprint</li>
+</ul>
+<h3 id="review-in-progress">Review In Progress</h3>
+<p>Pull Requests to create or update code, documentation, templates, etc
+and issues that need reviewed</p>
+<ul>
+<li>Complete the PR Template (ensure original issue is closed or
+referenced)</li>
+<li>Assign reviewers, assign yourself, add Project board</li>
+<li>If issue has multiple issue to close and/or reference, report each
+reference/close # on seperate line to ensure correct link</li>
+</ul>
+<h3 id="review-approved">Review Approved</h3>
+<p>Pull requests that have received their approval and are ready to be
+merged</p>
+<ul>
+<li>Merge the changes</li>
+<li>Close the PR</li>
+<li>Delete branch if not in use</li>
+</ul>
+<h3 id="done">Done</h3>
+<ul>
+<li>Issue is completed, no further action rquired</li>
+<li>Ensure task checklist is complete</li>
+</ul>

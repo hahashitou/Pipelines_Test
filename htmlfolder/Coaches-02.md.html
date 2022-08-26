@@ -1,0 +1,176 @@
+<h1 id="create-your-first-serverless-function-workflow">Create your
+first serverless function &amp; workflow</h1>
+<h2 id="happy-path">Happy path</h2>
+<p>One of these three directions used:​</p>
+<ul>
+<li><p>Use latest Visual Studio with the latest Functions and Webjobs
+Extension to create the function app &amp; the functions, test locally
+and to publish to Azure</p></li>
+<li><p>Use Visual Studio Code with the latest Azure Functions Extension
+to create the function app, the functions, test locally, and to publish
+to Azure</p></li>
+<li><p>Use (Java/Python) favorite IDE with latest Azure Functions Core
+Tools and Azure CLI to create the function app, the functions, test
+locally, and to publish to Azure</p></li>
+</ul>
+<h2 id="python-developer-notes">Python developer notes</h2>
+<ul>
+<li>VS Code users can use the <a
+href="https://docs.microsoft.com/azure/python/tutorial-vs-code-serverless-python-05">Functions
+Extension</a> to deploy the Function app, but will abstract from the
+developers what is occurring during the deployment. Encourage the
+developers to use the <a
+href="https://docs.microsoft.com/azure/azure-functions/functions-reference-python#publishing-to-azure">Azure
+Function Core tools</a> for the deployment. This will give them greater
+visibility into the remote build occurring in the cloud.</li>
+</ul>
+<h2 id="coaches-notes">Coaches Notes</h2>
+<ul>
+<li><p>This is the only challenge that has requirements that are
+individual; all others they will need to work together, or split into
+sub-teams then share the lessons and merge the work​</p></li>
+<li><p>If the team includes an infrastructure focus member, they should
+focus on IaC tooling and deploying an Azure Function and Logic App
+during this time. This will put the team on a trajectory that will help
+keep both app devs and infrastructure focus members working together
+during later challenges.</p></li>
+<li><p>Support and guide each team member throughout the setup process
+(Visual Studio, VS Code, dependencies, etc.) and questions they might
+have about Functions and Logic Apps​</p></li>
+<li><p>Spend some time to explain how this challenge is mostly about
+level setting (basically a Challenge 0), and gives them an intro to
+Functions and Logic Apps; and that the rest of the challenges will give
+them a better business and technical idea of serverless​</p></li>
+<li><p>Make sure the result is correct; that they are calling the
+function using GET and the Logic App using POST​</p></li>
+<li><p>Feel free to explain the different options for creating a
+function locally, steer them towards VS Code and VS if possible unless
+they really want to try something themselves that isn’t C# or Node (like
+Java or Python)</p></li>
+<li><p>Make sure they have the latest versions VS and of the
+extensions​</p></li>
+<li><p>VS Code is finicky if you don’t have the right version of the
+functions runtime or .NET Core (uninstall all .NET core and install the
+latest SDK fixes things, and also installing the latest
+runtime)​</p></li>
+<li><p>If using the Logic Apps extension in VS Code, please note that
+the designer is <em>read-only</em>. The VS Code <a
+href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-logicapps">extension
+page</a> shows (animated GIF) that the designer is read-only. For a full
+graphical editing experience, use Visual Studio or the Azure
+Portal.</p></li>
+<li><p>Careful when installing the functions core tools using
+chocolatey, it seems to install the 32 bit version of it that has a
+bug​</p></li>
+<li><p>If using node with functions, make sure the node version in app
+settings for the function is set to at least 8.4.0. Ideally, this would
+match your current node version (such as v12).</p></li>
+<li><p>Runtime and Nuget Packages that work well:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Product</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Visual Studio</td>
+<td>16.3.2</td>
+</tr>
+<tr class="even">
+<td>Functions and WebJobs Extension for VS</td>
+<td>V15.0.40502</td>
+</tr>
+<tr class="odd">
+<td>.Net Core SDK</td>
+<td><a
+href="https://dotnet.microsoft.com/download/visual-studio-sdks">.Net
+Core</a></td>
+</tr>
+<tr class="even">
+<td>Function Core Tools</td>
+<td>2.7.1633</td>
+</tr>
+<tr class="odd">
+<td>Other nuget libraries</td>
+<td>…</td>
+</tr>
+<tr class="even">
+<td>Microsoft.ApplicationInsights</td>
+<td>2.11.0</td>
+</tr>
+<tr class="odd">
+<td>Microsoft.NET.Sdk.Functions</td>
+<td>1.0.28</td>
+</tr>
+<tr class="even">
+<td>CsvHelper</td>
+<td>12.1.2</td>
+</tr>
+<tr class="odd">
+<td>Microsoft.Azure.WebJobs.Extension.CosmosDB</td>
+<td>3.0.3</td>
+</tr>
+<tr class="even">
+<td>Microsoft.Azure.WebJobs.Extensions.DurableTask</td>
+<td>1.8.2</td>
+</tr>
+<tr class="odd">
+<td>Microsoft.Azure.WebJobs.Extensions.EventHubs</td>
+<td>3.0.3</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<h2 id="why-azure-functions-and-logic-apps">Why Azure Functions and
+Logic Apps</h2>
+<h3 id="azure-functions">Azure Functions</h3>
+<ul>
+<li><p>Azure functions allow your teams to write less code, maintain
+less infrastructure and save on costs.</p></li>
+<li><p>Azure functions are lightweight and stand-alone. Functions can
+easily break up monolithic applications and reduce your lead/cycle time,
+allowing your teams to get code to production much more quickly and
+efficiently.</p></li>
+<li><p>Azure functions can leverage <a
+href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-function-linux-custom-image">custom
+Docker containers</a> to fulfil specific language version or dependency
+requirements that are not provided by the built-in image.</p>
+<blockquote>
+<p><strong>Additional Information</strong> The Azure Functions service
+is made up of two key components: a runtime and a scale controller. The
+Functions runtime runs and executes your code. The runtime includes
+logic on how to trigger, log, and manage function executions. The Azure
+Functions runtime can run anywhere. The other component is a scale
+controller. The scale controller monitors the rate of events that are
+targeting your function, and proactively scales the number of instances
+running your app.</p>
+</blockquote></li>
+<li><p>You can deploy any function app to a <a
+href="https://docs.microsoft.com/azure/azure-functions/functions-kubernetes-keda">Kubernetes
+cluster running KEDA</a></p></li>
+</ul>
+<h3 id="azure-logic-apps">Azure Logic Apps</h3>
+<ul>
+<li>Logic apps are able to connect to just about anything, with over 200
+connectors, and can be triggered at will, on a schedule, or as a
+response to an event</li>
+<li>Logic apps are easy to use, with workflows that can be created with
+just a few configurations using a powerful drag-and-drop editor
+approach, logic apps can allow your team to quickly and easily
+orchestrate complex logic</li>
+</ul>
+<h2 id="infrastruture-notes">Infrastruture Notes</h2>
+<ul>
+<li>Many Azure Quickstart Templates include Bicep versions in the GitHub
+repositories.</li>
+<li>It is highly encouraged to have this effort done in parallel with
+the development efforts done to accomplish the primary challenge
+content. Executing the bonus content sequentially could jeopardize the
+team’s ability to complete the minimum number of challenges.</li>
+</ul>

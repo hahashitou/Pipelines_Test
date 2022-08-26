@@ -1,0 +1,141 @@
+<h1 id="finish-the-ice-cream-ratings-api">Finish the Ice Cream Ratings
+API</h1>
+<h2 id="progress-diagram">Progress Diagram</h2>
+<figure>
+<img
+src="https://serverlessoh.azureedge.net/public/ratings-api-progress-diagram.jpg"
+alt="Ratings API progress diagram" />
+<figcaption aria-hidden="true">Ratings API progress diagram</figcaption>
+</figure>
+<h2 id="happy-path">Happy Path</h2>
+<ul>
+<li>Put code in GitHub or Azure DevOps or other Git Sources</li>
+<li>Create and Continuously deploy to an Azure Function App</li>
+<li>Use Azure Functions with Cosmos DB, use the functions input and
+output bindings</li>
+<li>Can use CosmosDB client SDKs too, not tied to bindings</li>
+<li>For Node especially, CosmosDB Mongo API + Mongoose works well</li>
+</ul>
+<h2 id="coaches-notes">Coaches Notes</h2>
+<ul>
+<li>By the end of this challenge ensure your team has a setup conducive
+for collaborating and a plan for working together. I.e., ‘how are we
+going to collab, where are we going to put all the code’</li>
+<li>Good one to try enabling Visual Studio Live Share</li>
+<li>Get the team to discuss how they can split up and then reconverge to
+share</li>
+<li>Make sure to test their CreateRating function using the sample
+website provided in the challenge, this will ensure they are accepting
+the correct JSON format as that’ll be used in later challenges</li>
+<li>Get them to use Consumption plan (real serverless)</li>
+<li>When trying to install extensions and getting an error on “cannot
+find dotnet-add”, this is due to old version of .NET Core, installing
+latest version of .NET should correct this.</li>
+<li>For GetRatings putting userId into route and using it in the
+SQLQuery parameter (instead of query string which doesn’t work)</li>
+<li>Cosmos DB requires a partition key to be set when creating the
+container. As a coach, have a conversation with the team about the <a
+href="https://docs.microsoft.com/azure/cosmos-db/partitioning-overview#choose-partitionkey">choice
+of a partition key</a>, and how the partition key may impact querying.
+For example, potential partition keys for this challenge may be
+<code>userId</code> or <code>productId</code>.</li>
+<li>Users to use for sending reviews:</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 34%" />
+<col style="width: 34%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>User Id​</th>
+<th>User Name​</th>
+<th>Full Name​</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>cc5581ff-6be1-4418-a8d8-55a29c24b995​</td>
+<td>garry.thornburg​</td>
+<td>Garry Thornburg​</td>
+</tr>
+<tr class="even">
+<td>6dd3bb49-a5be-41ca-9dac-3b995450f2db​</td>
+<td>kayla.cobb​</td>
+<td>Kayla Cobb​</td>
+</tr>
+<tr class="odd">
+<td>ed414804-ed3d-4ec3-a283-f94ee86f3e23​</td>
+<td>edna.waters​</td>
+<td>Edna Waters​</td>
+</tr>
+<tr class="even">
+<td>d1f80b77-040f-4ec8-a833-90b18da70337​</td>
+<td>chester.furlong​</td>
+<td>Chester Furlong​</td>
+</tr>
+<tr class="odd">
+<td>cc20a6fb-a91f-4192-874d-132493685376​</td>
+<td>doreen.riddle​</td>
+<td>Doreen Riddle​</td>
+</tr>
+</tbody>
+</table>
+<h3 id="storage-notes">Storage Notes</h3>
+<ul>
+<li>CosmosDb
+<ul>
+<li>Ensure the team discusses the partition key requirement of the
+collection.</li>
+<li>Using the id property of the binding will not work without the use
+of the partition key property as well. The GetRating function will
+require using the sql query</li>
+</ul></li>
+</ul>
+<h3 id="node-notes">Node notes</h3>
+<ul>
+<li>Keep check of the WEBSITE_NODE_DEFAULT_VERSION app setting.
+Depending on the version of function apps being used the Node version in
+the portal may need to be updated. Refer to the <a
+href="https://docs.microsoft.com/azure/azure-functions/functions-versions#languages">Language
+chart</a> for supported language runtimes.</li>
+<li>To enable debugging in Visual Studio you have to add “NODE_OPTIONS”:
+“–inspect=5858” to the local settings file</li>
+</ul>
+<h3 id="devops-notes">DevOps Notes</h3>
+<ul>
+<li>The team can create an AzDo account using the credentials provided
+by the Opgility portal</li>
+<li>If using Azure DevOps for source code but you still want to connect
+to it from the Functions deployment options, you need to configure from
+an Organization that your login is the owner of. The deployment
+configuration will reference <a
+href="https://docs.microsoft.com/azure/devops/organizations/accounts/create-organization?view=azure-devops">these
+instructions</a> for doing so.
+<ul>
+<li>Linux app service plans do not have Kudu service available so
+therefore cannot use this option for deployment configuration</li>
+</ul></li>
+<li>See <a
+href="https://docs.microsoft.com/azure/azure-functions/functions-deployment-technologies#deployment-technology-availability">Deployment
+technology availability</a> for available deployment options based on
+App Service plan selections.</li>
+<li>Mac and Linux users will want to either create a storage account in
+Azure to connect their local dev environment to, or install Azurite v2.
+<a href="https://github.com/mydiemho/blob-trigger-sample">Azurite v3
+will not work</a>, while Windows users can use Storage Emulator.</li>
+</ul>
+<h2 id="why-devops-and-azure-functions">Why DevOps and Azure
+Functions</h2>
+<ul>
+<li>DevOps is used to automate manual deployment &amp; release of code
+to minimize human error</li>
+<li>Azure Functions lets you run pieces of code without provisioning an
+entire hosting environment</li>
+</ul>
+<h2 id="infrastruture-notes">Infrastruture Notes</h2>
+<ul>
+<li>Many Azure Quickstart Templates include Bicep versions in the GitHub
+repositories.</li>
+</ul>

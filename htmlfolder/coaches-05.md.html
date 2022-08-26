@@ -1,0 +1,102 @@
+<h1 id="notify-all-distributors-of-the-new-ice-cream-line">Notify all
+distributors of the new ice cream line</h1>
+<h2 id="progress-diagram">Progress Diagram</h2>
+<figure>
+<img
+src="https://serverlessoh.azureedge.net/public/distributor-notification-progress-diagram.jpg"
+alt="Distributor notification progress diagram" />
+<figcaption aria-hidden="true">Distributor notification progress
+diagram</figcaption>
+</figure>
+<h2 id="happy-path">Happy Path</h2>
+<p>One of these options</p>
+<ul>
+<li><p>Use Logic Apps, with the Common Data Service &amp; Office 365
+Email connectors, and the create HTML Table action or the variables
+actions</p></li>
+<li><p>Use Logic Apps and Azure Functions together (LA for the Common
+Data Service and Office 365 Email connectors, and Functions to get the
+list of products and generate an HTML for it)</p></li>
+</ul>
+<h2 id="coaches-notes">Coaches Notes</h2>
+<ul>
+<li><p>The CRM Contacts have their email addresses set to two email
+addresses that you can use to validate the emails were sent. To
+validate, login with the following accounts
+OHCoach1@microsoftopenhack.onmicrosoft.com Pass: OpenHackCoach1, User:
+OHCoach2@microsoftopenhack.onmicrosoft.com, Pass: OpenHackCoach2 at <a
+href="https://outlook.office.com">Office.com</a>.</p></li>
+<li><p>When using logic apps, the connector to work with emails is the
+<code>Microsoft Dataverse Connector</code> and it will list the action
+as (legacy): <code>List rows (legacy)</code>.</p></li>
+<li><p>Remember to “Add a new Connection” in Logic Apps when signing in
+to the Dataverse connector and enter the credentials as per the
+challenge. When entered correctly, the list of options will present.
+Build the logic app around that list with foreach control.</p></li>
+<li><p>Use the same connection for both the dataverse connector and the
+Office 365 Outlook connection</p></li>
+<li><p>Use Postman to trigger the logic app to test connections and data
+outside of the normal workflow. Don’t forget to set the header for
+content type to
+<code>'Content-Type' : 'application/json'</code></p></li>
+<li><p>Help them with running the Logic App without the full solution
+and checking the input/output of each action so they know how to extract
+the email from the Common Data Service connector response. Easily create
+a foreach loop with a logic app connector and select the
+<code>Email</code> property for each contact.</p>
+<blockquote>
+<p>NOTE: A solution is available at
+~/solutions/codeless/Distributor_Notification/logicapp.json</p>
+</blockquote></li>
+<li><p>Instruct the teams to use the Office 365 Outlook connector to
+send an email if they need further help <a
+href="https://docs.microsoft.com/en-us/connectors/office365connector/#send-an-email-(v2)">Send
+Email (v2) action</a></p></li>
+<li><p>Attendees should construct the email content using Logic App
+variables, and insert the variable into the body of the email. The
+entire email body could also be a composed variable for
+simplicity.</p></li>
+<li><p>If you get ‘Failed to fetch swagger’ when using the Azure
+Functions action in Logic Apps, go back to the function app, into CORS
+settings, remove all entries and add an entry for
+<code>*</code>.</p></li>
+<li><p>There is a known bug with Logic Apps and the API Management
+connector, in that the connector is unable to retrieve the list of
+actions when using the <strong>Consumption</strong> tier of API
+Management. Please see <a
+href="https://stackoverflow.microsoft.com/questions/169694/support-for-consumption-tier-apim-instances-in-the-logic-app-connector">here</a>
+and <a
+href="https://social.msdn.microsoft.com/Forums/890b2235-ff66-4186-9aa3-b16909dc81a1/logic-apps-no-showing-azure-api-management-apis?forum=azureapimgmt">here</a>
+for additional information.</p></li>
+<li><p>If you get an error for Microsoft.EventGrid resource provider was
+not registered for the attendee subscription, make sure to follow the
+steps to register the EventGrid resource provider from <a
+href="https://docs.microsoft.com/en-us/azure/event-grid/custom-event-quickstart-portal">Register
+Event Grid as a resource provider</a></p></li>
+</ul>
+<h2 id="why-azure-logic-apps">Why Azure Logic Apps</h2>
+<ul>
+<li>Logic apps are easy to use, with workflows that can be created with
+just a few configurations using a powerful drag-and-drop editor
+approach, logic apps can allow your team to quickly and easily
+orchestrate complex logic</li>
+<li>Logic apps cost very little to store and can be run hundreds of
+times in a very cost-efficient, consumption-based approach</li>
+</ul>
+<h2 id="infrastructure-as-code">Infrastructure as Code</h2>
+<ul>
+<li>There is no specific goal or requirment for IaC on this challenge,
+however know that Logic App connectors are not easily created in code if
+this is investigated by the team. There is no Terraform resource that
+creates connectors, however Bicep and ARM examples exist outside of
+Microsoft documentation that could lead to a solution.</li>
+</ul>
+<p><a
+href="https://docs.microsoft.com/en-us/azure/templates/microsoft.logic/workflows?tabs=bicep">ARM
+for Logic Workflows</a> <a
+href="https://vincentlauzon.com/2017/10/28/how-to-create-a-logic-app-connector-in-an-arm-template/">How
+to Create a Logic App Connector in an ARM Template</a> <a
+href="https://mikaelsand.se/2020/11/how-to-use-logic-apps-custom-connectors-with-arm-and-ci-cd/">How
+to use Logic App Custom Connectors with ARM and CI/CD</a> <a
+href="https://stackoverflow.com/questions/60703570/how-to-deploy-logic-app-with-o365-connector-within-arm-template">How
+to deploy Logic App with o365 Connector within ARM template</a></p>

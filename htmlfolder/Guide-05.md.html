@@ -1,0 +1,59 @@
+<h1 id="challenge-5">Challenge 5</h1>
+<p><strong>Iterate through distributors and send them emails with the
+details of the new ice cream line</strong></p>
+<p><strong>Deploy the Json in your logic app resource in
+Portal</strong>. <strong><a
+href="https://microsoftapc-my.sharepoint.com/personal/dabhan_microsoft_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fdabhan%5Fmicrosoft%5Fcom%2FDocuments%2Flogicapp%2Ejson&amp;parent=%2Fpersonal%2Fdabhan%5Fmicrosoft%5Fcom%2FDocuments">Logicapp.json</a></strong>
+The logic has few important steps.</p>
+<ul>
+<li><p>initially the http trigger, that trigger the flow of the logic
+app.</p></li>
+<li><p>The Html construct. We can do this by getting the html from the
+challenge and putting this into the table.</p></li>
+<li><p>The construct of the html would be mixed with the get product api
+call.</p></li>
+<li><p>Connecting to Dynamics and getting the customer information with
+new Dataverse connector.</p></li>
+<li><p>Running the “Send an email” connector in For loop by the number
+of customers.</p></li>
+</ul>
+<figure>
+<img src="./images/image19.png" alt="image text" />
+<figcaption aria-hidden="true">image text</figcaption>
+</figure>
+<h2 id="additional-notes"><u>Additional Notes:</u></h2>
+<p>You can retrieve the main contacts of the distributors from the
+distributor’s Dynamics 365 CRM systems with the following detail:</p>
+<pre class="text"><code>User: duser@microsoftopenhack.onmicrosoft.com
+
+Password: pass@word1
+
+Environment: Microsoft OpenHack (msftopenhack)
+
+Entity: Contacts</code></pre>
+<p>Viewing records to select the entity from the distributor’s Dynamics
+365 CRM system can take several seconds. Please be patient.</p>
+<p>The Email field from each contact contains the email address to be
+used for each distributor contact.</p>
+<p>The email should also contain your team number in the subject. Feel
+free to also add the email address of someone in your team in CC so you
+can see what the emails look like.</p>
+<p><strong>HINT</strong>: The same credentials for user and password as
+listed above can also be used to send emails from Office 365 Outlook Add
+your own email address to the list and/or review the workflow executions
+to see the emails sent to validate the emails are sent as expected to
+multiple distributors.</p>
+<h2 id="challenge-5-responses">Challenge 5 Responses</h2>
+<p>Read the challenge responses (list them from the coach’s deck)</p>
+<ul>
+<li><p>The email looks correct in an HTML format and with the list of
+products<br />
+<em>As per the logic app the document is created in the variable before
+then push it in the email connector body. Which is housed inside the
+loop.</em></p></li>
+<li><p>Your coach will be able to validate that the distributors have
+received the email with your HTML content</p></li>
+<li><p>Make sure your team number is in the email subject</p></li>
+<li><p>Once the coach has validated the email, show the implementation
+to them</p></li>
+</ul>

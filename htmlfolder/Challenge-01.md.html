@@ -1,0 +1,142 @@
+<h1 id="development-environment-configuration">Development Environment
+Configuration</h1>
+<p>This is a test</p>
+<p>Please ensure your machine conforms to these prerequisites. This</p>
+<ul>
+<li><p>A modern laptop running Windows 10, Mac OSX 10.12 or higher, or
+one of <a
+href="https://github.com/Azure/azure-functions-core-tools#linux">these
+Ubuntu versions</a></p></li>
+<li><p>Your preferred IDE (integrated development environments), like
+Visual Studio Code or Visual Studio:</p>
+<ul>
+<li><p>If using Visual Studio for Windows, make sure you have the <a
+href="https://visualstudio.microsoft.com/">latest Visual Studio
+version</a> with the <code>Azure development</code> option
+selected.</p></li>
+<li><p>If using Visual Studio Code in Windows, OSX, or Linux make sure
+you have the latest Visual Studio Code version for your OS, and</p>
+<pre><code>* [VSCode Azure Functions extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions)
+
+* [Azure Functions Core Tools](https://docs.microsoft.com/azure/azure-functions/functions-run-local#v3) version 3x  </code></pre></li>
+<li><p>Optionally, you may just desire to get the Azure Tools extension,
+which includes functions and many other Azure resources</p>
+<pre><code>* [Azure Tools VSCode Extensions](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-node-azure-pack)</code></pre></li>
+</ul></li>
+</ul>
+<h2 id="language-specific-prerequisites">Language specific
+prerequisites</h2>
+<p>Depending on the language your team uses, there are additional
+prerequisites that your machine will need to have. Please review these
+language specific prerequisites to ensure your machine is ready for the
+open hack.</p>
+<h3 id="c-.net-core">C# .NET Core</h3>
+<ul>
+<li>Either <a href="https://visualstudio.microsoft.com/">Visual
+Studio</a></li>
+</ul>
+<p>or</p>
+<ul>
+<li><p><a href="https://code.visualstudio.com/">Visual Studio Code</a>
+on one of the <a
+href="https://code.visualstudio.com/docs/supporting/requirements#_platforms">supported
+platforms</a>.</p>
+<ul>
+<li><p>Use of the Visual Studio Code <a
+href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp">C#
+Extension</a> is recommended.</p></li>
+<li><p><a
+href="https://docs.microsoft.com/azure/azure-functions/functions-run-local#v3">Azure
+Functions Core Tools</a> version 3x</p></li>
+</ul></li>
+</ul>
+<blockquote>
+<p>.Net 6.0 with Azure Functions v4 has not been validated for these
+OpenHack challenges (and are currently not available for Azure functions
+v3). Please use Azure Functions v3 and .NET 3.1. Refer to <a
+href="https://docs.microsoft.com/azure/azure-functions/supported-languages">supported
+languages</a> to determine when .Net 6.0 and Azure functions v4 are no
+longer in preview state. At that time, you may choose to attempt the
+exercises in Functions v4 and .Net 6.</p>
+</blockquote>
+<h3 id="javamaven">Java/Maven</h3>
+<ul>
+<li><a href="https://aka.ms/azure-jdks">Java Developer Kit</a> version
+8</li>
+<li><a href="https://maven.apache.org/">Apache Maven</a> version 3.0 or
+later</li>
+<li><a href="https://docs.microsoft.com/cli/azure">Azure CLI</a></li>
+<li><a
+href="https://docs.microsoft.com/azure/azure-functions/functions-run-local#v3">Azure
+Functions Core Tools</a> version 3.x</li>
+</ul>
+<blockquote>
+<p>Refer to <a
+href="https://docs.microsoft.com/azure/azure-functions/functions-reference-java">Azure
+Functions Java Developer guide</a> for latest version support
+information</p>
+</blockquote>
+<h3 id="javascript">JavaScript</h3>
+<ul>
+<li><a href="https://code.visualstudio.com/">Visual Studio Code</a> on
+one of the <a
+href="https://code.visualstudio.com/docs/supporting/requirements#_platforms">supported
+platforms</a></li>
+<li><a
+href="https://docs.microsoft.com/azure/azure-functions/functions-run-local#v3">Azure
+Functions Core Tools</a> version 3x</li>
+<li><a href="https://nodejs.org/">Node.js</a> Active LTS and Maintenance
+LTS versions (8.11.1 and 10.14.1 recommended)</li>
+</ul>
+<blockquote>
+<p>Refer to <a
+href="https://docs.microsoft.com/azure/azure-functions/functions-reference-java">Azure
+Function Supported Languages</a> for further Node supported version
+information</p>
+</blockquote>
+<h3 id="python">Python</h3>
+<h4 id="previous-versions">Previous Versions</h4>
+<p>If you have 3.6.x or 3.7.x you <strong>should</strong> have no issues
+with those versions, just be certain to select the correct version when
+creating your function apps at Azure.</p>
+<h4 id="use-a-vm-instead-of-multiple-versions">Use a VM instead of
+multiple versions</h4>
+<p>It is recommended you do not do a side-by-side installation of a new
+python version for this challenge. To be clean and avoid potential
+issues, consider using a low-cost VM running Linux at Azure and install
+the latest python tools there.</p>
+<h4 id="use-vscode-with-the-azure-functions-extension">Use VSCode with
+the Azure Functions Extension</h4>
+<p>It is very easy to work with VSCode with python functions at Azure.
+Although you may be new to VSCode, it is recommended due to the high
+availability of extensions that can easily run (locally) and publish
+Azure functions to your integrated Azure subscription.</p>
+<ul>
+<li><p><a href="https://www.python.org/downloads/">Python 3.8.x</a></p>
+<ul>
+<li><p>Using VSCode with Azure Functions extension makes it easy to
+select the compiler. language, and project and integrate directly to
+your function app at Azure, including deployment.</p></li>
+<li><p>VS Code users on Windows, in the past, python interpreter
+selection can be troublesome. Review <a
+href="https://code.visualstudio.com/docs/languages/python#_environments">Python
+in VS Code environments</a> for assistance with this if you run into
+issues.</p></li>
+</ul></li>
+<li><p><a
+href="https://code.visualstudio.com/download">VSCode</a></p></li>
+<li><p><a
+href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions">VSCode
+Azure Functions extension</a></p></li>
+<li><p><a
+href="https://docs.microsoft.com/azure/azure-functions/functions-run-local#v3">Azure
+Functions Core Tools</a> version 3x. You need this to run/test
+locally.</p></li>
+<li><p><a href="https://docs.microsoft.com/cli/azure">Azure
+CLI</a></p></li>
+<li><p>Recommended for Mac OSX and Linux users to install <a
+href="https://www.nuget.org/packages/Azurite/">Azurite v2</a></p></li>
+<li><p><a
+href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurestorage">VSCode
+Azure Storage extension</a></p></li>
+</ul>

@@ -1,0 +1,59 @@
+<h1 id="system-telemetry-and-api-management">System telemetry and API
+Management</h1>
+<h2 id="progress-diagram">Progress Diagram</h2>
+<figure>
+<img
+src="https://serverlessoh.azureedge.net/public/system-telemetry-and-api-management-progress-diagram.jpg"
+alt="System telemetry and API Management progress diagram" />
+<figcaption aria-hidden="true">System telemetry and API Management
+progress diagram</figcaption>
+</figure>
+<h2 id="happy-path">Happy Path</h2>
+<h3 id="for-telemetry">For Telemetry</h3>
+<p>Enable App Insights, then run the create the query provided in the
+solutions directory in App Insights Analytics:</p>
+<h3 id="for-api-management">For API Management</h3>
+<ul>
+<li>Try to coach towards the path of API Management. Features that will
+want to harness include
+<ul>
+<li>Reverse Proxy</li>
+<li>Product Groups</li>
+<li>Rate Limit policies &gt; The team may set the rate limits to
+restrictive for manual testing. Make sure they follow the numbers in the
+challenge. Originally we had them to restrictive.</li>
+</ul></li>
+<li>The team may initially import the entire function in API Management.
+This is OK for learning, but this will block them from the success
+criteria of the challenge. You may need to coach them to import the
+individual function APIs so they can get placed into the right product
+groups.</li>
+</ul>
+<h2 id="coaches-notes">Coaches Notes</h2>
+<ul>
+<li>Explain to your team differences between API Management versus
+Proxies.</li>
+<li>APIM will not accept the email address with the “onmicrosoft.com”
+domain for the admin email. The team will need to use a valid email
+address in this field.</li>
+<li>Make them aware of how long a non Consumption based sku takes to
+deploy and if they want to go that way make them create the account
+ASAP. Otherwise the consumption sku is much faster to deploy and will
+contain the features required to accomplish the challenge.</li>
+<li>For infrastructure participants, recognize that moving all the APIM
+settings and configuration to IaC may not be desirable. The line where
+IaC ends and configuration management begins can be blurry and very
+dependent on the processes within an organization and you may need to
+limit this conversation. Deploying a basic APIM for delivery to the
+application team for further configuration is an acceptable
+solution.</li>
+</ul>
+<h2 id="why-api-management-and-azure-monitor">Why API Management and
+Azure monitor</h2>
+<ul>
+<li>API Management is a façade/interface that intercepts API calls and
+can manipulate them to achieve various tasks (like securing the
+endpoints, throttling, monitoring…etc.)</li>
+<li>Azure Monitor gives you visibility on the status/health of your
+Azure resources</li>
+</ul>

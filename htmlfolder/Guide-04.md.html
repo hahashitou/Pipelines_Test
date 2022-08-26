@@ -1,0 +1,215 @@
+<h1 id="challenge-4">Challenge 4</h1>
+<h2
+id="success-criteria-demonstrate-to-your-coach-the-implementation-of-how-to-check-the-total-number-of-times-and-the-average-duration-of-each-function-for-the-past-hour-based-on-telemetry.-the-results-should-be-displayed-as-a-table-in-the-same-result-set-and-have-one-row-for-each-of-the-three-production-ratings-api-functions-you-created-in-the-previous-challenge.">Success
+Criteria: Demonstrate to your coach the implementation of how to check
+the total number of times and the average duration of each function for
+the past hour based on telemetry. The results should be displayed as a
+table, in the same result set, and have one row for each of the three
+production Ratings API functions you created in the previous
+challenge.</h2>
+<p><strong>Enable telemetry for the API, show usage and average call
+durations for the past hour. Consolidate all function apps behind one
+base URL, implement rate limiting policies while exposing APIs as
+different suites of products</strong></p>
+<ol type="1">
+<li><p>If not already done, enable <strong>App Insights</strong>: In the
+Azure portal navigate to your function app &gt; Application Insights and
+click on Enable.</p></li>
+<li><p>Go to the Application Insight instance, to
+<strong>Logs</strong></p></li>
+<li><p>then run following Kusto query:</p>
+<blockquote>
+<p><strong>Kusto Query</strong></p>
+</blockquote>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>requests</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>| <span class="kw">where</span> <span class="dt">timestamp</span> <span class="op">&gt;</span> ago(1h)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>| summarize <span class="fu">Count</span><span class="op">=</span><span class="fu">count</span>(name), AverageDurationInSecs<span class="op">=</span><span class="fu">avg</span>(duration) <span class="kw">by</span> name</span></code></pre></div>
+<p>The result should be similar to the following screenshot with a row
+for each of your functions.</p>
+<figure>
+<img src="./images/image16.png" alt="image text" />
+<figcaption aria-hidden="true">image text</figcaption>
+</figure></li>
+</ol>
+<p>Alternatively, you can create in <strong>Application
+Insights</strong> dashboard or a workbook, which will give you these
+data by default.</p>
+<h2
+id="success-criteria-demonstrate-to-your-coach-the-implementation-of-exposing-a-uniform-api-under-the-same-base-url-for-all-functions">Success
+Criteria: Demonstrate to your coach the implementation of exposing a
+uniform API under the same base URL for all functions</h2>
+<p>The assignment requires providing the APIs to different target groups
+(Mobile app users, Internal business users, external partners). In the
+next screenshot are the necessary APIs and there target groups.</p>
+<figure>
+<img src="images/apis.png" alt="apis" />
+<figcaption aria-hidden="true">apis</figcaption>
+</figure>
+<p>Since can’t split an API and we can only put an entire API into an
+API product, we’ll have to create an extra API for the <code>POST</code>
+operation <code>CreateReating</code>. In total we’ll have 4 APIs:</p>
+<ul>
+<li>1st API only contains the operation <code>GetUser</code></li>
+<li>2nd API contains <code>GetProduct</code>,
+<code>GetProducts</code></li>
+<li>3rd API conatins <code>CreateRating</code></li>
+<li>4th API contains <code>GetRating</code>,
+<code>GetRatings</code></li>
+</ul>
+<p><code>GetProduct</code>, <code>GetProducts</code>, and
+<code>GetUser</code> are provided endpoints, while
+<code>CreateRating</code>, <code>GetRating</code>, and
+<code>GetRatings</code> are the functions that you created in the
+previous challenges.</p>
+<p>The following steps will guide you throug hteh creation of the
+corresponding APIs in an Azure API Management Services instance.</p>
+<ol type="1">
+<li>In the Azure portal, create an <strong>API Mangement
+Services</strong> instance</li>
+</ol>
+<p>For the existing/provided endpoints follow these steps to create two
+APIs (in the list above these would be the <em>1st</em> and the
+<em>2nd</em> APIs)</p>
+<ol start="2" type="1">
+<li><p>In your API management instance navigate to <strong>APIs &gt; +
+Add API &gt; HTTP</strong></p></li>
+<li><p>Provide a Display name e.g. Users, add the suffix
+<code>/users</code> and click on Create</p></li>
+<li><p>Select the newly created <strong>Usres</strong> API and click on
+<strong>+Add operation</strong></p></li>
+<li><p>Enter the following</p>
+<ul>
+<li>Display name: GetUser</li>
+<li>Name: GetUser</li>
+<li>URL: GET and paste the GetUser URL from teh assignment of challenge
+#3</li>
+</ul>
+<p>then <strong>Save</strong></p></li>
+<li><p>Create a second API, call it for example <code>products</code>
+and add to it two operations with the two products URLs from the
+assignment of challenge #3: <code>GetProduct</code> and
+<code>GetProducts</code></p></li>
+</ol>
+<p>To create the 3rd and 4th API - that point at your Azure functions -
+follow teh next steps.</p>
+<ol start="7" type="1">
+<li><p>In your API management instance navigate to **APIs &gt; + Add API
+&gt; Function App</p></li>
+<li><p>In the popup window click on <strong>browse</strong> to select
+your function app, then select the corresponding function for each API
+(check the list above).</p></li>
+</ol>
+<h2
+id="success-criteria-demonstrate-to-your-coach-the-configuration-of-the-3-different-product-suites-and-the-operations-exposed-to-each-of-them.">Success
+Criteria: Demonstrate to your coach the configuration of the 3 different
+product suites and the operations exposed to each of them.</h2>
+<p>In this challenge you’ll create an API product suite for each target
+group</p>
+<ul>
+<li>Mobile app users</li>
+<li>Internal business user</li>
+<li>External partners</li>
+</ul>
+<ol type="1">
+<li>In the Azure portal, navigate to your API management services
+instance &gt; Products</li>
+</ol>
+<figure>
+<img src="images/add_product.png" alt="add product" />
+<figcaption aria-hidden="true">add product</figcaption>
+</figure>
+<ol start="2" type="1">
+<li><p>Click <strong>+ Add</strong></p></li>
+<li><p>Specify a display name e.g. Mobile App, and description (you can
+for example list the APIs and their operations).</p></li>
+</ol>
+<p>Repeat the last three steps to create an API product suite for the
+two other groups.</p>
+<h2
+id="success-crietria-demonstrate-to-your-coach-the-implementation-of-the-rate-limiting-requirements.-the-results-should-have-different-policies-configured-on-the-internal-business-users-product-suite-then-on-the-external-partners-product-suite.-there-should-be-no-throttling-configured-on-the-mobile-applications-product-suite.">Success
+Crietria: Demonstrate to your coach the implementation of the rate
+limiting requirements. The results should have different policies
+configured on the <strong>Internal business users</strong> product suite
+then on the <strong>External Partners</strong> product suite. There
+should be no throttling configured on the Mobile Applications product
+suite.</h2>
+<p>To implement the required throttling we will create policies that
+limit the rate of requests for the <strong>internal business
+users</strong> and the <strong>external partners</strong>. These
+<strong>rate limit</strong> can be created on the level of the API
+products.</p>
+<ol type="1">
+<li><p>In teh Azure portal navigate to the yoru API management instance
+&gt; Products &gt; click on the product for <em>internal business
+users</em> &gt; Policies</p></li>
+<li><p>In the <strong>Inbound processing</strong> box, click on
+<strong>+ Add policy</strong> <img src="images/add_policy.png"
+alt="add policy" /></p></li>
+<li><p>Select <strong>Limit call rate</strong> and pass the values:</p>
+<ul>
+<li>Number of calls: 30</li>
+<li>Renewal period: 10</li>
+</ul>
+<figure>
+<img src="images/limit_call_rate.png" alt="limit call rate" />
+<figcaption aria-hidden="true">limit call rate</figcaption>
+</figure></li>
+</ol>
+<p>Repeat teh previous steps to add the same policy to the product for
+<strong>external partners</strong>. Be aware that the values for the
+call rate limit are different for this product (60 calls within 15
+seconds).</p>
+<h2 id="additional-notes">Additional Notes</h2>
+<ul>
+<li><p>Explain to your team differences between <strong>API Management
+versus Proxies.</strong></p></li>
+<li><p>APIM will not accept the email address with the "onmicrosoft.com"
+domain for the admin email. The team will need to use a valid email
+address in this field.</p></li>
+<li><p>Make them aware of how long a non-Consumption based sku takes to
+deploy and if they want to go that way make them create the account
+ASAP. Otherwise, the consumption sku is much faster to deploy and will
+contain the features required to accomplish the challenge.</p></li>
+</ul>
+<h3 id="challenge-4-responses">Challenge 4 Responses</h3>
+<p>Read the challenge responses (list them from the coach’s deck)</p>
+<ul>
+<li>Demonstrate to your coach the implementation of how to check the
+total number of times and the average duration of each function for the
+past hour based on telemetry. The results should be displayed as a
+table, in the same result set, and have one row for each of the three
+production Ratings API functions you created in the previous
+challenge.</li>
+</ul>
+<p><em>No need to store the results in a data store, on screen display
+of the results is sufficient we can show it through Azure Monitor or
+straight through Application insights.</em></p>
+<ul>
+<li>Demonstrate to your coach the implementation of exposing a uniform
+API under the same base URL for all functions</li>
+</ul>
+<blockquote>
+<p><em>This configuration is done in APIM as you register your
+apis</em></p>
+</blockquote>
+<ul>
+<li>Demonstrate to your coach the configuration of the 3 different
+product suites and the operations exposed to each of them.</li>
+</ul>
+<blockquote>
+<p><em>Mentioned in the Challenge, you will be creating 2 different
+product groups in APIM.</em></p>
+</blockquote>
+<ul>
+<li>Demonstrate to your coach the implementation of the rate limiting
+requirements. The results should have different policies configured on
+the Internal business users product suite then on the External Partners
+product suite. There should be no throttling configured on the Mobile
+Applications product suite.</li>
+</ul>
+<blockquote>
+<p><em>These will be done by putting Policies in place for each product
+in APIM. The throttling and restrictions of APIs can be done through
+policies.</em></p>
+</blockquote>
