@@ -1,62 +1,20 @@
-<h1 id="selfserve-hacks-compiler">Selfserve hacks compiler</h1>
-<p>This utility has been built with the purpose of generating an easy
-way to navigate the openhack challenges when its run as self serve.</p>
-<h2 id="prerequisites">Prerequisites</h2>
-<p>Utility has been built as a .Net Core 5 console application thus
-requires the .net core 5 runtime at your environment.</p>
-<h2 id="running-the-utility">Running the utility</h2>
-<p>To run the utility you will have to build the Visual studio project
-<code>SelfServeCompiler</code>. You can do that either by opening the
-solution in Visual Studio building the solution and then runing the
-binaries produced or through command line with the
-<code>dotnet run</code> command.</p>
-<p>The utility requires two arguments, the source path where the
-markdown files are located and the destination path where the html
-content will be generated. If the destination path does not exist it
-will be created by the utility.</p>
-<p>There’s also an optional argument that you can provide and that is
-the image URI referenced inside the Markdown files. This will be
-replaced by the utility with a local path and images will be copied in
-that path.</p>
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">-</span>s<span class="op">,</span> <span class="op">--</span>source         Required<span class="op">.</span> Enter the source path of the MarkDown files</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">-</span>d<span class="op">,</span> <span class="op">--</span>destination    Required<span class="op">.</span> Enter the destination path <span class="kw">for</span> the web pages</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">-</span>i<span class="op">,</span> <span class="op">--</span>ImagesUrl      <span class="op">(</span>Default<span class="op">:</span> https<span class="op">://</span>serverlessoh<span class="op">.</span><span class="fu">azureedge</span><span class="op">.</span><span class="fu">net</span><span class="op">/</span>public<span class="op">/)</span> Use this argument to <span class="fu">set</span> the url of the images mentioned at the Markdown files<span class="op">.</span> Url will be replaced with a local path at the destination html file</span></code></pre></div>
-<h3 id="running-through-command-line">Running through Command Line</h3>
-<p>Through your terminal navigate to the SelfServeCompiler folder of the
-repository and run:</p>
-<blockquote>
-<p>dotnet run -c Release SelfServeCompiler -s PATH_TO_THE_MARKDOWN_FILES
--d OUTPUT_DIR</p>
-</blockquote>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># example:</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dotnet run <span class="op">-</span>c Release SelfServeCompiler <span class="op">-</span>s C<span class="op">:</span>\Projects\Openhacks\serverless\portal\en <span class="op">-</span>d c<span class="op">:</span>\Temp\html</span></code></pre></div>
-<p>Expected output</p>
-<pre class="console"><code>Reading Content Definition File...
-Transforming Overview content...
-Building page Challenge 1: Development environment configuration...
-Building page Challenge 2: Create your first serverless function &amp; workflow...
-Building page Challenge 3: Finishing the Ice Cream Ratings API, and Continuous Integration and Deployment...
-Building page Challenge 4: System telemetry and API Management...
-Building page Challenge 5: Distributor notification...
-Building page Challenge 6: Process distributor order batch files...
-Building page Challenge 7: Process POS sales events...
-Building page Challenge 8: Pub/Sub and network integration...
-Building page Challenge 9: Alerting and notification...
-Building page Challenge 10: Putting it all together...
-Constructing the html page
-Copying Images...
-Copying alerting-and-notification-progress-diagram.jpg...
-Copying distributor-notification-progress-diagram.jpg...
-Copying final-progress-diagram.jpg...
-Copying order-batch-files-progress-diagram.jpg...
-Copying process-pos-sales-event-progress-diagram.jpg...
-Copying pubsub-and-vnet-integration-progress-diagram.jpg...
-Copying pubsub-and-vnet-integration-virtual-network-diagram.png...
-Copying ratings-api-progress-diagram.jpg...
-Copying readme.md...
-Copying system-telemetry-and-api-management-progress-diagram.jpg...</code></pre>
-<p>Once the program has completed you can navigate at the page
-<code>index.html</code> that’s generated at the given path.</p>
-<p><img style="width:1080px" src="GeneratedPage.jpg" /></p>
+<h1 id="introduction">Introduction</h1>
+<p>TODO: Give a short introduction of your project. Let this section
+explain the objectives or the motivation behind this project.</p>
+<h1 id="getting-started">Getting Started</h1>
+<p>TODO: Guide users through getting your code up and running on their
+own system. In this section you can talk about: 1. Installation process
+2. Software dependencies 3. Latest releases 4. API references</p>
+<h1 id="build-and-test">Build and Test</h1>
+<p>TODO: Describe and show how to build your code and run the tests.</p>
+<h1 id="contribute">Contribute</h1>
+<p>TODO: Explain how other users and developers can contribute to make
+your code better.</p>
+<p>If you want to learn more about creating good readme files then refer
+the following <a
+href="https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops">guidelines</a>.
+You can also seek inspiration from the below readme files: - <a
+href="https://github.com/aspnet/Home">ASP.NET Core</a> - <a
+href="https://github.com/Microsoft/vscode">Visual Studio Code</a> - <a
+href="https://github.com/Microsoft/ChakraCore">Chakra Core</a></p>
+<h1 id="hhhhhhhhhhh">hhhhhhhhhhh</h1>
